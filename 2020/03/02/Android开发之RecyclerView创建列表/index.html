@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>静心之处</title>
-  <meta name="keywords" content="">
-  <meta name="description" content="静心之处">
+  <title>Android开发之RecyclerView创建列表 | 静心之处</title>
+  <meta name="keywords" content=" RecylerView ">
+  <meta name="description" content="Android开发之RecyclerView创建列表 | 静心之处">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="如今的我算是一个落魄之人，本科的专业不是自己喜欢的，大学四年兜兜转转自己学了一些编程的一些东西，但是如今恐怕也尚未摸到合格线。现在刚刚毕业，还没有找工作，参加了考研大军，考软件工程。初试成绩308分，不算高，自己作为一个跨专业的考生心里总归是有些许恐慌。如今发生了疫情，所有人都被困在家，对我而言算得上是一件幸事，多给了我一些时间去学习。不论是考研复试，还是参加工作，都多了一些时间。对于计算机软件技">
 <meta property="og:type" content="article">
@@ -53,7 +53,7 @@
 </div>
 
 <body>
-<aside class="nav mobile">
+<aside class="nav">
     <div class="nav-left">
         <a href="/" class="avatar_target">
     <img class="avatar" src="/img/avatar.jpg" />
@@ -244,12 +244,55 @@
         </div>
     </div>
 </aside>
-<div class="post index">
+<div class="post">
     <div class="pjax">
-        <article class="index">
-            <div class="toc-ref">
+        <article id="post-Android开发之RecyclerView创建列表" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#关于这里"><span class="toc-text">关于这里</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#博客平台"><span class="toc-text">博客平台</span></a></li></ol>
+        <h1 class="article-title">Android开发之RecyclerView创建列表</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            
+                <a  data-rel="移动端开发&gt;Android">移动端开发&gt;Android</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            
+            <a class="color2">RecylerView</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+        创建时间:<time class="date" title='更新时间: 2020-03-02 17:09:01'>2020-03-02 16:11</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读:<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建项布局文件"><span class="toc-text">创建项布局文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建数据源"><span class="toc-text">创建数据源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建适配器"><span class="toc-text">创建适配器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#给数据源添加具体数据、设置RecyclerView的具体类型、给RecyclerView设置适配器"><span class="toc-text">给数据源添加具体数据、设置RecyclerView的具体类型、给RecyclerView设置适配器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#完成！"><span class="toc-text">完成！</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -262,20 +305,83 @@
     }
 </style>
 </div>
-            <h2 id="关于这里"><a href="#关于这里" class="headerlink" title="关于这里"></a>关于这里</h2><p>在这里我会留下自己的各种想法，不论是软件开发、安全技术上的，还是生活上的。<br>留下自己的点滴，就像自己曾走过的弯弯绕绕的路。</p>
-<p>人们总需要保持不断学习、不断前进的状态，才能活得无与伦比。<br>我想做一个可以不断学习的、开开心心的人儿。</p>
-<p>本站访问人数：<code class="site_uv"></code>人次 ， 访问量：<code class="site_pv"></code>次</p>
-<h2 id="博客平台"><a href="#博客平台" class="headerlink" title="博客平台"></a>博客平台</h2><p>这个博客通过 <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> 生成，部署在 <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a>，主题 <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank" rel="noopener">3-hexo</a> 已经在github上开源</p>
-<p>主要功能：</p>
-<ul>
-<li>搜索支持文章标题、标签(#标签)、作者(@作者)</li>
-<li>pad/手机等移动端适配</li>
-<li>页面全局快捷键 <a href='http://yelog.org/2017/03/24/3-hexo-shortcuts/' target="_blank" rel="noopener">3-hexo快捷键说明</a></li>
-</ul>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>RecyclerView控件可以用于创建各种类型的列表，比如横向的、竖向的、还有网格的。<br>RecyclerView的具体类型通过设定其布局管理器来决定</p>
+<blockquote>
+<p>LinearLayoutManager 现行管理器，支持横向、纵向。<br>GridLayoutManager 网格布局管理器<br>StaggeredGridLayoutManager 瀑布就式布局管理器</p>
+</blockquote>
+<p>下面讲讲它的用法。<br>这个控件可以创建列表，所以你需要自己建一个列表中每一项的布局文件，告诉它列表的每一项长什么样子；然后列表肯定需要往那个项布局文件存数据，所以需要一个数据源，比如一个 List<Intager> list ，list中是对应列表各项的数据；最后需要一个适配器，这个适配器用来将数据源和项布局对应关联起来，告诉RecyclerView数据应该怎么放。</p>
+<blockquote>
+<p>ReyclerView需要：<br>1 数据源    要放在列表中的所有数据<br>2 适配器    将数据传入适配器，把数据与项布局对应绑定，所以在适配器类内部需要使用数据源以及项布局</p>
+</blockquote>
+<h2 id="创建项布局文件"><a href="#创建项布局文件" class="headerlink" title="创建项布局文件"></a>创建项布局文件</h2><p>我要往列表中放图片，所以项布局中要有一个ImageView<br>你的根据需要进行布局</p>
+<p><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;FrameLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:layout_width=&quot;match_parent&quot; android:layout_height=&quot;match_parent&quot;&gt;
+&lt;ImageView
+    android:id=&quot;@+id/images&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    /&gt;
+&lt;/FrameLayout&gt;</code></p>
+<h2 id="创建数据源"><a href="#创建数据源" class="headerlink" title="创建数据源"></a>创建数据源</h2><p>因为我要往列表中放图片，所以我的数据源存放的是图片的id所以是Integer类型，你根据自己的需要进行填写</p>
+<p><code>// 数据源
+    private List&lt;Integer&gt; imagePath;</code></p>
+<h2 id="创建适配器"><a href="#创建适配器" class="headerlink" title="创建适配器"></a>创建适配器</h2><p>下面是我自己定义的一个适配器类，RecyclerView的适配器需要继承于RecyclerView.Adapter&lt;&gt;类，这是个模板类，其尖括号里需要是一个ViewHolder，这个ViewHolder在适配器类内定义，ViewHolder内的属性对于项布局中的各个控件。</p>
+<blockquote>
+<p>讲一下怎么在IDE中更便捷的创建适配器类，不要直接复制粘贴下面的内容，先创建自己的适配器，然后用ide把需要override的方法弄出来，在弄那个ViewHolder，然后再对照下面的内容将自己的适配器弄完整—————-因为这个确实有些复杂，所以要用的时候先把这个类的框架弄好，再对照着下面改吧。</p>
+</blockquote>
+<p>`     class DataAdapter extends RecyclerView.Adapter&lt;DataAdapter.ViewHolders&gt;{<br>        // 下面这个类用于承接列表的项布局中的控件<br>        public class ViewHolders extends RecyclerView.ViewHolder{<br>            private ImageView imageView;                    // 因为我的项布局中只放了一个ImageView，所以这里只有这个，<br>                                                            // 如果你的项布局中有其他的，要在这里写出来作为ViewHold的属性<br>            public ViewHolders(@NonNull View itemView) {<br>                super(itemView);<br>                this.imageView = itemView.findViewById(R.id.images);<br>            }<br>        }</p>
+<pre><code>    // 适配器属性
+    private List&lt;Integer&gt; paths;        // 数据源
+    private ViewHolders viewHolders;    // 项布局中的每个控件
+    // 将数据传进来
+    public DataAdapter(List&lt;Integer&gt; dataList) {
+        this.paths = dataList;
+    }</code></pre><p>// 下面这个方法将项布局与ViewHolder关联起来<br>        @NonNull<br>        @Override<br>        public ViewHolders onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {<br>            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.items, null);<br>            this.viewHolders = new ViewHolders(view);<br>            return this.viewHolders;<br>        }</p>
+<p>// 下面这个方法设置项布局中的控件的数据<br>        @Override<br>        public void onBindViewHolder(@NonNull ViewHolders holder, int position) {<br>            this.viewHolders.imageView.setImageResource(this.paths.get(position));<br>        }</p>
+<pre><code>    @Override
+    public int getItemCount() {
+        return this.paths.size();
+    }
 
-        </article>
-        
-        
+
+}`</code></pre><h2 id="给数据源添加具体数据、设置RecyclerView的具体类型、给RecyclerView设置适配器"><a href="#给数据源添加具体数据、设置RecyclerView的具体类型、给RecyclerView设置适配器" class="headerlink" title="给数据源添加具体数据、设置RecyclerView的具体类型、给RecyclerView设置适配器"></a>给数据源添加具体数据、设置RecyclerView的具体类型、给RecyclerView设置适配器</h2><p>`<br>        this.recyclerView = this.view.findViewById(R.id.list);      // RecyclerView<br>        this.imagePath = new ArrayList&lt;&gt;();                         // 实例化数据源<br>        this.imagePath.add(R.drawable.me);<br>        this.imagePath.add(R.drawable.avatar);                      // 给数据源添加具体数据<br>        this.dataAdapter = new DataAdapter(this.imagePath);         // 实例化适配器，将数据源传进去</p>
+<pre><code>    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());        // 线性布局管理器，默认纵向
+    this.recyclerView.setLayoutManager(linearLayoutManager);                                // 设置RecyclerView的类型
+    this.recyclerView.setAdapter(this.dataAdapter);                                         // 设置适配器</code></pre><p>`</p>
+<h2 id="完成！"><a href="#完成！" class="headerlink" title="完成！"></a>完成！</h2><p>ok了</p>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 mo19962018@outlook.com </span>
+    </div>
+</article>
+
+
+
+<div class="article_copyright">
+    <p><span class="copy-title">文章标题:</span>Android开发之RecyclerView创建列表</p>
+    
+    <p><span class="copy-title">本文作者:</span><a  title="mo1230">mo1230</a></p>
+    <p><span class="copy-title">发布时间:</span>2020-03-02, 16:11:59</p>
+    <p><span class="copy-title">最后更新:</span>2020-03-02, 17:09:01</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/03/02/Android%E5%BC%80%E5%8F%91%E4%B9%8BRecyclerView%E5%88%9B%E5%BB%BA%E5%88%97%E8%A1%A8/" title="Android开发之RecyclerView创建列表">http://yoursite.com/2020/03/02/Android%E5%BC%80%E5%8F%91%E4%B9%8BRecyclerView%E5%88%9B%E5%BB%BA%E5%88%97%E8%A1%A8/</a>
+    <p>
+        <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+    </p>
+</div>
+
+
+
+
+
+    
+
+
+
+
     </div>
     <div class="copyright">
         <p class="footer-entry">©2018-2019 mo1230</p>
