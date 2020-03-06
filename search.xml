@@ -4,6 +4,39 @@
   
     
     <entry>
+      <title>记录一次练手小项目--历史上的今天</title>
+      <link href="/2020/03/05/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%BB%83%E6%89%8B%E5%B0%8F%E9%A1%B9%E7%9B%AE-%E5%8E%86%E5%8F%B2%E4%B8%8A%E7%9A%84%E4%BB%8A%E5%A4%A9/"/>
+      <url>/2020/03/05/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%BB%83%E6%89%8B%E5%B0%8F%E9%A1%B9%E7%9B%AE-%E5%8E%86%E5%8F%B2%E4%B8%8A%E7%9A%84%E4%BB%8A%E5%A4%A9/</url>
+      
+        <content type="html"><![CDATA[<p>最近在b站上找到一个安卓的<a href="https://www.bilibili.com/video/av75746261?p=1" target="_blank" rel="noopener">练手小项目–历史上的今天</a>,这个小项目用到了一些框架以及一些实用的技巧，对于新手来说很有学习意义。在这里谢谢这位作者的付出。（这个作者应该是个小姐姐^0^）</p><blockquote><p>这里是项目中的一些重要的知识点：</p><ol><li>聚合数据API的使用</li><li>xutils框架的使用</li><li>gson框架的使用</li><li>picasso框架的使用</li><li>drawable资源的编写</li><li>TextView布局为线条的技巧</li><li>LinearLayout中百分比布局的方法</li><li>日历对话框的使用</li></ol></blockquote><h2 id="聚合数据API的使用"><a href="#聚合数据API的使用" class="headerlink" title="聚合数据API的使用"></a>聚合数据API的使用</h2><p><a href="https://www.juhe.cn/?" target="_blank" rel="noopener">聚合数据</a>，这个网站中有各种各样的API可以供开发者使用，有收费的也有免费的。这次用到的是两个免费的API：历史上的今天、老黄历。申请了免费API之后，点进去会有API文档以及API测试工具，就可以知道有几个可以使用的API。选择要使用的API然后点击API测试工具，可以进行测试，从而得到相应的返回数据。这个返回数据我们后面要使用它来编写相应的数据类（使用一个插件可以直接生成，后面介绍）<br><img src="/2020/03/05/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%BB%83%E6%89%8B%E5%B0%8F%E9%A1%B9%E7%9B%AE-%E5%8E%86%E5%8F%B2%E4%B8%8A%E7%9A%84%E4%BB%8A%E5%A4%A9/today.png" alt="历史上的今天API"><br><img src="/2020/03/05/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%BB%83%E6%89%8B%E5%B0%8F%E9%A1%B9%E7%9B%AE-%E5%8E%86%E5%8F%B2%E4%B8%8A%E7%9A%84%E4%BB%8A%E5%A4%A9/data.png" alt="通过API测试工具得到的返回数据"></p><ul><li>从返回数据得到相应的数据类：<ol><li>安装gsonformat插件<br><img src="/2020/03/05/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%BB%83%E6%89%8B%E5%B0%8F%E9%A1%B9%E7%9B%AE-%E5%8E%86%E5%8F%B2%E4%B8%8A%E7%9A%84%E4%BB%8A%E5%A4%A9/gsonformat.png" alt></li><li>新建一个HistoryBean类</li><li>在这个类文件中鼠标右键点击Generate，选择Gsonformat,然后将得到的返回数据赋值粘贴到插件中，点击确定，就生成了数据类<br><img src="/2020/03/05/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%BB%83%E6%89%8B%E5%B0%8F%E9%A1%B9%E7%9B%AE-%E5%8E%86%E5%8F%B2%E4%B8%8A%E7%9A%84%E4%BB%8A%E5%A4%A9/databean.png" alt="Gsonformat"></li></ol></li></ul><h2 id="xutils框架、gson框架、picasso框架"><a href="#xutils框架、gson框架、picasso框架" class="headerlink" title="xutils框架、gson框架、picasso框架"></a>xutils框架、gson框架、picasso框架</h2><p>这三个框架的具体使用我会再写几篇文章来讲解，这里只讲解这三个框架在这个项目中的总体作用。xutils框架可以发送网络请求，gson框架用来解析数据格式，picasso框架是加载网络图片的框架。<br><img src="/2020/03/05/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%BB%83%E6%89%8B%E5%B0%8F%E9%A1%B9%E7%9B%AE-%E5%8E%86%E5%8F%B2%E4%B8%8A%E7%9A%84%E4%BB%8A%E5%A4%A9/kuangjia.png" alt="三个框架的主体作用"></p><h2 id="drawable资源的编写"><a href="#drawable资源的编写" class="headerlink" title="drawable资源的编写"></a>drawable资源的编写</h2><p>drawable也就是绘制(画画)。在为布局设置一些特殊的背景或者让布局形状为特殊形状时可以编写一个drawable资源。<br><a href="https://www.cnblogs.com/Jeely/p/11045042.html" target="_blank" rel="noopener">这里有一篇别人的博客，写的比较详细</a><br>在这次的项目中，有一些ViewGroup的背景就是通过绘制添加进去的，比如图片按钮的背景形状<br><img src="/2020/03/05/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%BB%83%E6%89%8B%E5%B0%8F%E9%A1%B9%E7%9B%AE-%E5%8E%86%E5%8F%B2%E4%B8%8A%E7%9A%84%E4%BB%8A%E5%A4%A9/drawable.png" alt></p><h2 id="TextView布局为线条的技巧"><a href="#TextView布局为线条的技巧" class="headerlink" title="TextView布局为线条的技巧"></a>TextView布局为线条的技巧</h2><p>有时候我们需要一个线条来实现分割效果，可以通过使用一个线条的图片来实现，但是这样太过麻烦。可以直接用TextView将它的宽度或者高度设置为1dp，背景设置为相应的颜色，这样就可以实现一个线条的效果。</p><p><img src="/2020/03/05/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%BB%83%E6%89%8B%E5%B0%8F%E9%A1%B9%E7%9B%AE-%E5%8E%86%E5%8F%B2%E4%B8%8A%E7%9A%84%E4%BB%8A%E5%A4%A9/textview.png" alt="使用TextView做线条"></p><h2 id="LinearLayout中百分比布局的方法"><a href="#LinearLayout中百分比布局的方法" class="headerlink" title="LinearLayout中百分比布局的方法"></a>LinearLayout中百分比布局的方法</h2><p>在LinearLayout中可以通过设置layout_weight以及调整相应的layout_width或layout_height为0来调整部件在布局中的比例大小。<br><img src="/2020/03/05/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%BB%83%E6%89%8B%E5%B0%8F%E9%A1%B9%E7%9B%AE-%E5%8E%86%E5%8F%B2%E4%B8%8A%E7%9A%84%E4%BB%8A%E5%A4%A9/bili.png" alt></p><h2 id="日历对话框的使用"><a href="#日历对话框的使用" class="headerlink" title="日历对话框的使用"></a>日历对话框的使用</h2><p>DatePickerDialog类所对应的是Android自带的日历对话框<br><img src="/2020/03/05/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E7%BB%83%E6%89%8B%E5%B0%8F%E9%A1%B9%E7%9B%AE-%E5%8E%86%E5%8F%B2%E4%B8%8A%E7%9A%84%E4%BB%8A%E5%A4%A9/rilidialog.png" alt></p><p>对了，这次的项目我会对其进行优化，因为我跟着这个b站小姐姐做的只是一个简单版的，界面也不是特别好看。这两天我会使用一些其他部件，将界面美化一下并且再仔细学习一下xutils、gson、picasso框架的使用。</p><p>祝好</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 移动端开发 </category>
+          
+          <category> Android </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 历史上的今天 </tag>
+            
+            <tag> xutils </tag>
+            
+            <tag> gson </tag>
+            
+            <tag> picasso </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Android开发之RecyclerView创建列表</title>
       <link href="/2020/03/02/Android%E5%BC%80%E5%8F%91%E4%B9%8BRecyclerView%E5%88%9B%E5%BB%BA%E5%88%97%E8%A1%A8/"/>
       <url>/2020/03/02/Android%E5%BC%80%E5%8F%91%E4%B9%8BRecyclerView%E5%88%9B%E5%BB%BA%E5%88%97%E8%A1%A8/</url>
