@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Android开发之RecyclerView创建列表 | 静心之处</title>
-  <meta name="keywords" content=" RecylerView ">
-  <meta name="description" content="Android开发之RecyclerView创建列表 | 静心之处">
+  <title>Android开发之运行时权限以及内容提供者 | 静心之处</title>
+  <meta name="keywords" content="">
+  <meta name="description" content="Android开发之运行时权限以及内容提供者 | 静心之处">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="xutils框架一共有四个模块：注解模块、网络模块、数据库模块、图片加载模块,暂时用不到注解模块和图片加载模块，所以先讲一下网络模块xutils框架的地址 使用xutils模块的配置 添加依赖(到官网查看)  implementation &#39;org.xutils:xutils:3.8.5&#39; 添加权限—网络权限、读写权限  &lt;uses-permission android:na">
 <meta property="og:type" content="article">
@@ -298,9 +298,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-Android开发之RecyclerView创建列表" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-Android开发之运行时权限以及内容提供器" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">Android开发之RecyclerView创建列表</h1>
+        <h1 class="article-title">Android开发之运行时权限以及内容提供者</h1>
     
     <div class="article-meta">
         
@@ -315,21 +315,15 @@
         </span>
         
         
-        <span class="tag">
-            
-            <a class="color2">RecylerView</a>
-            
-        </span>
+    </div>
+    <div class="article-meta">
+        
+        创建时间:<time class="date" title='更新时间: 2020-03-08 22:07:21'>2020-03-06 23:38</time>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2020-03-02 17:54:21'>2020-03-02 16:11</time>
-        
-    </div>
-    <div class="article-meta">
-        
-        <span>字数:966</span>
+        <span>字数:465</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -348,7 +342,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建项布局文件"><span class="toc-text">创建项布局文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建数据源"><span class="toc-text">创建数据源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建适配器"><span class="toc-text">创建适配器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#给数据源添加具体数据、设置RecyclerView的具体类型、给RecyclerView设置适配器"><span class="toc-text">给数据源添加具体数据、设置RecyclerView的具体类型、给RecyclerView设置适配器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#完成！"><span class="toc-text">完成！</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#运行时权限"><span class="toc-text">运行时权限</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内容提供者"><span class="toc-text">内容提供者</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -364,79 +358,19 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>RecyclerView控件可以用于创建各种类型的列表，比如横向的、竖向的、还有网格的。<br>RecyclerView的具体类型通过设定其布局管理器来决定</p>
-<blockquote>
-<p>LinearLayoutManager 现行管理器，支持横向、纵向。<br>GridLayoutManager 网格布局管理器<br>StaggeredGridLayoutManager 瀑布就式布局管理器</p>
-</blockquote>
-<p>下面讲讲它的用法。<br>这个控件可以创建列表，所以你需要自己建一个列表中每一项的布局文件，告诉它列表的每一项长什么样子；然后列表肯定需要往那个项布局文件存数据，所以需要一个数据源，比如一个 List<Intager> list ，list中是对应列表各项的数据；最后需要一个适配器，这个适配器用来将数据源和项布局对应关联起来，告诉RecyclerView数据应该怎么放。</Intager></p>
-<blockquote>
-<p>ReyclerView需要：<br>1 数据源    要放在列表中的所有数据<br>2 适配器    将数据传入适配器，把数据与项布局对应绑定，所以在适配器类内部需要使用数据源以及项布局</p>
-</blockquote>
-<h2 id="创建项布局文件"><a href="#创建项布局文件" class="headerlink" title="创建项布局文件"></a>创建项布局文件</h2><p>我要往列表中放图片，所以项布局中要有一个ImageView<br>你的根据需要进行布局</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;FrameLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-    android:layout_width=&quot;match_parent&quot; android:layout_height=&quot;match_parent&quot;&gt;
-&lt;ImageView
-    android:id=&quot;@+id/images&quot;
-    android:layout_width=&quot;match_parent&quot;
-    android:layout_height=&quot;match_parent&quot;
-    /&gt;
-&lt;/FrameLayout&gt;</code></pre><h2 id="创建数据源"><a href="#创建数据源" class="headerlink" title="创建数据源"></a>创建数据源</h2><p>因为我要往列表中放图片，所以我的数据源存放的是图片的id所以是Integer类型，你根据自己的需要进行填写</p>
-<pre><code class="//">    private List&lt;Integer&gt; imagePath;</code></pre>
-<h2 id="创建适配器"><a href="#创建适配器" class="headerlink" title="创建适配器"></a>创建适配器</h2><p>下面是我自己定义的一个适配器类，RecyclerView的适配器需要继承于RecyclerView.Adapter&lt;&gt;类，这是个模板类，其尖括号里需要是一个ViewHolder，这个ViewHolder在适配器类内定义，ViewHolder内的属性对于项布局中的各个控件。</p>
-<blockquote>
-<p>讲一下怎么在IDE中更便捷的创建适配器类，不要直接复制粘贴下面的内容，先创建自己的适配器，然后用ide把需要override的方法弄出来，在弄那个ViewHolder，然后再对照下面的内容将自己的适配器弄完整—————-因为这个确实有些复杂，所以要用的时候先把这个类的框架弄好，再对照着下面改吧。</p>
-</blockquote>
-<pre><code class="class">        // 下面这个类用于承接列表的项布局中的控件
-        public class ViewHolders extends RecyclerView.ViewHolder{
-            private ImageView imageView;                    // 因为我的项布局中只放了一个ImageView，所以这里只有这个，
-                                                            // 如果你的项布局中有其他的，要在这里写出来作为ViewHold的属性
-            public ViewHolders(@NonNull View itemView) {
-                super(itemView);
-                this.imageView = itemView.findViewById(R.id.images);
-            }
-        }
-
-        // 适配器属性
-        private List&lt;Integer&gt; paths;        // 数据源
-        private ViewHolders viewHolders;    // 项布局中的每个控件
-        // 将数据传进来
-        public DataAdapter(List&lt;Integer&gt; dataList) {
-            this.paths = dataList;
-        }
-
-// 下面这个方法将项布局与ViewHolder关联起来
-        @NonNull
-        @Override
-        public ViewHolders onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.items, null);
-            this.viewHolders = new ViewHolders(view);
-            return this.viewHolders;
-        }
-
-// 下面这个方法设置项布局中的控件的数据
-        @Override
-        public void onBindViewHolder(@NonNull ViewHolders holder, int position) {
-            this.viewHolders.imageView.setImageResource(this.paths.get(position));
-        }
-
-        @Override
-        public int getItemCount() {
-            return this.paths.size();
-        }
-
-
-    }</code></pre>
-<h2 id="给数据源添加具体数据、设置RecyclerView的具体类型、给RecyclerView设置适配器"><a href="#给数据源添加具体数据、设置RecyclerView的具体类型、给RecyclerView设置适配器" class="headerlink" title="给数据源添加具体数据、设置RecyclerView的具体类型、给RecyclerView设置适配器"></a>给数据源添加具体数据、设置RecyclerView的具体类型、给RecyclerView设置适配器</h2><pre><code>        this.recyclerView = this.view.findViewById(R.id.list);      // RecyclerView
-        this.imagePath = new ArrayList&lt;&gt;();                         // 实例化数据源
-        this.imagePath.add(R.drawable.me);
-        this.imagePath.add(R.drawable.avatar);                      // 给数据源添加具体数据
-        this.dataAdapter = new DataAdapter(this.imagePath);         // 实例化适配器，将数据源传进去
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());        // 线性布局管理器，默认纵向
-        this.recyclerView.setLayoutManager(linearLayoutManager);                                // 设置RecyclerView的类型
-        this.recyclerView.setAdapter(this.dataAdapter);                                         // 设置适配器
-</code></pre><h2 id="完成！"><a href="#完成！" class="headerlink" title="完成！"></a>完成！</h2><p>ok了</p>
+        <p>今天要讲两个东西：一、运行时权限  二、内容提供者</p>
+<h2 id="运行时权限"><a href="#运行时权限" class="headerlink" title="运行时权限"></a>运行时权限</h2><p>出现运行时权限这个东西是Google为了防止软件滥用Android权限而出现的，比如早期有些软件会申请很多权限（不管用不用得到这些权限），要是用户不同意就不能安装。<br>Google为了解决这种现象，推出了“运行时权限”即运行需要时再申请权限，不用在安装时就必须用户同意权限。</p>
+<p>Android当中的权限机制，分为普通权限、危险权限。危险权限就是那些涉及到用户安全、系统安全的东西，比如拨打电话。<br>普通权限，我们开发时只需在清单文件中申请即可。<br>危险权限，我们开发时不仅要在清单文件中申请，还需在java文件中做运行时权限处理。具体操作看下面的官方文档（因为我觉得这些我还用不到，所以。。。。）<br><a href="https://developer.android.google.cn/training/permissions/usage-notes" target="_blank" rel="noopener">Android文档中关于应用权限的推荐</a><br>官方文档推荐如果不是必须就不要对危险权限提出申请，一些操作可以通过Intent来调用系统应用来处理，而不是申请权限来完全控制。</p>
+<h2 id="内容提供者"><a href="#内容提供者" class="headerlink" title="内容提供者"></a>内容提供者</h2><p>内容提供者，可以将应用的特定数据允许外部其他应用访问。</p>
+<ul>
+<li>ContentResolver   可以在应用中访问其他应用内部数据（文件数据、数据库数据等）</li>
+<li>ContentProvider   内容提供者，继承这个类并做相应设置，可以设置外部应用可以访问哪些数据</li>
+</ul>
+<ol>
+<li>使用ContentResolver访问其他应用的数据(这里使用系统应用–电话簿)</li>
+<li>自定义自己的ContentProvider来让其他程序访问内部数据</li>
+</ol>
+<p>未完待续…</p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 mo19962018@outlook.com </span>
@@ -446,12 +380,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>Android开发之RecyclerView创建列表</p>
-    <p><span class="copy-title">文章字数:</span><span class="post-count">966</span></p>
+    <p><span class="copy-title">文章标题:</span>Android开发之运行时权限以及内容提供者</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">465</span></p>
     <p><span class="copy-title">本文作者:</span><a  title="mo1230">mo1230</a></p>
-    <p><span class="copy-title">发布时间:</span>2020-03-02, 16:11:59</p>
-    <p><span class="copy-title">最后更新:</span>2020-03-02, 17:54:21</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/03/02/Android%E5%BC%80%E5%8F%91%E4%B9%8BRecyclerView%E5%88%9B%E5%BB%BA%E5%88%97%E8%A1%A8/" title="Android开发之RecyclerView创建列表">http://yoursite.com/2020/03/02/Android%E5%BC%80%E5%8F%91%E4%B9%8BRecyclerView%E5%88%9B%E5%BB%BA%E5%88%97%E8%A1%A8/</a>
+    <p><span class="copy-title">发布时间:</span>2020-03-06, 23:38:09</p>
+    <p><span class="copy-title">最后更新:</span>2020-03-08, 22:07:21</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/03/06/Android%E5%BC%80%E5%8F%91%E4%B9%8B%E8%BF%90%E8%A1%8C%E6%97%B6%E6%9D%83%E9%99%90%E4%BB%A5%E5%8F%8A%E5%86%85%E5%AE%B9%E6%8F%90%E4%BE%9B%E5%99%A8/" title="Android开发之运行时权限以及内容提供者">http://yoursite.com/2020/03/06/Android%E5%BC%80%E5%8F%91%E4%B9%8B%E8%BF%90%E8%A1%8C%E6%97%B6%E6%9D%83%E9%99%90%E4%BB%A5%E5%8F%8A%E5%86%85%E5%AE%B9%E6%8F%90%E4%BE%9B%E5%99%A8/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>

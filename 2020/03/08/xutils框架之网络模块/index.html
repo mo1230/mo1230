@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Android开发之RecyclerView创建列表 | 静心之处</title>
-  <meta name="keywords" content=" RecylerView ">
-  <meta name="description" content="Android开发之RecyclerView创建列表 | 静心之处">
+  <title>xutils框架之网络模块 | 静心之处</title>
+  <meta name="keywords" content=" xutils ">
+  <meta name="description" content="xutils框架之网络模块 | 静心之处">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="xutils框架一共有四个模块：注解模块、网络模块、数据库模块、图片加载模块,暂时用不到注解模块和图片加载模块，所以先讲一下网络模块xutils框架的地址 使用xutils模块的配置 添加依赖(到官网查看)  implementation &#39;org.xutils:xutils:3.8.5&#39; 添加权限—网络权限、读写权限  &lt;uses-permission android:na">
 <meta property="og:type" content="article">
@@ -298,9 +298,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-Android开发之RecyclerView创建列表" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-xutils框架之网络模块" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">Android开发之RecyclerView创建列表</h1>
+        <h1 class="article-title">xutils框架之网络模块</h1>
     
     <div class="article-meta">
         
@@ -317,19 +317,19 @@
         
         <span class="tag">
             
-            <a class="color2">RecylerView</a>
+            <a class="color2">xutils</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2020-03-02 17:54:21'>2020-03-02 16:11</time>
+        创建时间:<time class="date" title='更新时间: 2020-03-08 22:13:56'>2020-03-08 20:32</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:966</span>
+        <span>字数:507</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -348,7 +348,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建项布局文件"><span class="toc-text">创建项布局文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建数据源"><span class="toc-text">创建数据源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建适配器"><span class="toc-text">创建适配器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#给数据源添加具体数据、设置RecyclerView的具体类型、给RecyclerView设置适配器"><span class="toc-text">给数据源添加具体数据、设置RecyclerView的具体类型、给RecyclerView设置适配器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#完成！"><span class="toc-text">完成！</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#使用xutils模块的配置"><span class="toc-text">使用xutils模块的配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用网络模块"><span class="toc-text">使用网络模块</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -364,79 +364,82 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>RecyclerView控件可以用于创建各种类型的列表，比如横向的、竖向的、还有网格的。<br>RecyclerView的具体类型通过设定其布局管理器来决定</p>
-<blockquote>
-<p>LinearLayoutManager 现行管理器，支持横向、纵向。<br>GridLayoutManager 网格布局管理器<br>StaggeredGridLayoutManager 瀑布就式布局管理器</p>
-</blockquote>
-<p>下面讲讲它的用法。<br>这个控件可以创建列表，所以你需要自己建一个列表中每一项的布局文件，告诉它列表的每一项长什么样子；然后列表肯定需要往那个项布局文件存数据，所以需要一个数据源，比如一个 List<Intager> list ，list中是对应列表各项的数据；最后需要一个适配器，这个适配器用来将数据源和项布局对应关联起来，告诉RecyclerView数据应该怎么放。</Intager></p>
-<blockquote>
-<p>ReyclerView需要：<br>1 数据源    要放在列表中的所有数据<br>2 适配器    将数据传入适配器，把数据与项布局对应绑定，所以在适配器类内部需要使用数据源以及项布局</p>
-</blockquote>
-<h2 id="创建项布局文件"><a href="#创建项布局文件" class="headerlink" title="创建项布局文件"></a>创建项布局文件</h2><p>我要往列表中放图片，所以项布局中要有一个ImageView<br>你的根据需要进行布局</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;FrameLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-    android:layout_width=&quot;match_parent&quot; android:layout_height=&quot;match_parent&quot;&gt;
-&lt;ImageView
-    android:id=&quot;@+id/images&quot;
-    android:layout_width=&quot;match_parent&quot;
-    android:layout_height=&quot;match_parent&quot;
-    /&gt;
-&lt;/FrameLayout&gt;</code></pre><h2 id="创建数据源"><a href="#创建数据源" class="headerlink" title="创建数据源"></a>创建数据源</h2><p>因为我要往列表中放图片，所以我的数据源存放的是图片的id所以是Integer类型，你根据自己的需要进行填写</p>
-<pre><code class="//">    private List&lt;Integer&gt; imagePath;</code></pre>
-<h2 id="创建适配器"><a href="#创建适配器" class="headerlink" title="创建适配器"></a>创建适配器</h2><p>下面是我自己定义的一个适配器类，RecyclerView的适配器需要继承于RecyclerView.Adapter&lt;&gt;类，这是个模板类，其尖括号里需要是一个ViewHolder，这个ViewHolder在适配器类内定义，ViewHolder内的属性对于项布局中的各个控件。</p>
-<blockquote>
-<p>讲一下怎么在IDE中更便捷的创建适配器类，不要直接复制粘贴下面的内容，先创建自己的适配器，然后用ide把需要override的方法弄出来，在弄那个ViewHolder，然后再对照下面的内容将自己的适配器弄完整—————-因为这个确实有些复杂，所以要用的时候先把这个类的框架弄好，再对照着下面改吧。</p>
-</blockquote>
-<pre><code class="class">        // 下面这个类用于承接列表的项布局中的控件
-        public class ViewHolders extends RecyclerView.ViewHolder{
-            private ImageView imageView;                    // 因为我的项布局中只放了一个ImageView，所以这里只有这个，
-                                                            // 如果你的项布局中有其他的，要在这里写出来作为ViewHold的属性
-            public ViewHolders(@NonNull View itemView) {
-                super(itemView);
-                this.imageView = itemView.findViewById(R.id.images);
-            }
-        }
+        <p>xutils框架一共有四个模块：注解模块、网络模块、数据库模块、图片加载模块,暂时用不到注解模块和图片加载模块，所以先讲一下网络模块<br><a href="https://github.com/wyouflf/xUtils3" target="_blank" rel="noopener">xutils框架的地址</a></p>
+<h2 id="使用xutils模块的配置"><a href="#使用xutils模块的配置" class="headerlink" title="使用xutils模块的配置"></a>使用xutils模块的配置</h2><ol>
+<li>添加依赖(到官网查看)</li>
+</ol>
+<pre><code>implementation &#39;org.xutils:xutils:3.8.5&#39;</code></pre><ol start="2">
+<li>添加权限—网络权限、读写权限</li>
+</ol>
+<pre><code>&lt;uses-permission android:name=&quot;android.permission.INTERNET&quot; /&gt;
+&lt;uses-permission android:name=&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot; /&gt;&lt;!-- 可选 --&gt;</code></pre><ol start="3">
+<li>初始化框架</li>
+</ol>
+<pre><code>//初始化,为了便于维护，所以直接建立一个类继承自Application
 
-        // 适配器属性
-        private List&lt;Integer&gt; paths;        // 数据源
-        private ViewHolders viewHolders;    // 项布局中的每个控件
-        // 将数据传进来
-        public DataAdapter(List&lt;Integer&gt; dataList) {
-            this.paths = dataList;
-        }
+public class MyApplication extends Application {
+   public void onCreate() {
+    super.onCreate();
+    x.Ext.init(this);
+    x.Ext.setDebug(true); //是否输出debug日志，开启debug会影响性能。
+    }
+}</code></pre><ol start="4">
+<li>在清单文件中注册</li>
+</ol>
+<pre><code>&lt;application
 
-// 下面这个方法将项布局与ViewHolder关联起来
-        @NonNull
+android:name=&quot;.MyApp&quot; //注册MyApplication
+...
+&lt;/application</code></pre><h2 id="使用网络模块"><a href="#使用网络模块" class="headerlink" title="使用网络模块"></a>使用网络模块</h2><p>网络模块也就是访问互联网、下载、上传、缓存等等。</p>
+<ul>
+<li>访问网络</li>
+</ul>
+<pre><code>String url = &quot;http://www.baidu.com&quot;;
+RequestParams params = new new RequestParams(url);
+
+// 如果时post请求就使用x.http().post()
+x.http().get(params, new Callback.CommonCallback&lt;String&gt;() {
+
+        public void onSuccess(String result) {
+            Toast.makeText(x.app(), result, Toast.LENGTH_LONG).show();
+            Log.i(&quot;JAVA&quot;, &quot;onSuccess result:&quot; + result);
+
+        }
+        //请求异常后的回调方法
         @Override
-        public ViewHolders onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.items, null);
-            this.viewHolders = new ViewHolders(view);
-            return this.viewHolders;
+        public void onError(Throwable ex, boolean isOnCallback) {
         }
-
-// 下面这个方法设置项布局中的控件的数据
+        //主动调用取消请求的回调方法
         @Override
-        public void onBindViewHolder(@NonNull ViewHolders holder, int position) {
-            this.viewHolders.imageView.setImageResource(this.paths.get(position));
+        public void onCancelled(CancelledException cex) {
         }
-
         @Override
-        public int getItemCount() {
-            return this.paths.size();
+        public void onFinished() {
+
         }
-
-
-    }</code></pre>
-<h2 id="给数据源添加具体数据、设置RecyclerView的具体类型、给RecyclerView设置适配器"><a href="#给数据源添加具体数据、设置RecyclerView的具体类型、给RecyclerView设置适配器" class="headerlink" title="给数据源添加具体数据、设置RecyclerView的具体类型、给RecyclerView设置适配器"></a>给数据源添加具体数据、设置RecyclerView的具体类型、给RecyclerView设置适配器</h2><pre><code>        this.recyclerView = this.view.findViewById(R.id.list);      // RecyclerView
-        this.imagePath = new ArrayList&lt;&gt;();                         // 实例化数据源
-        this.imagePath.add(R.drawable.me);
-        this.imagePath.add(R.drawable.avatar);                      // 给数据源添加具体数据
-        this.dataAdapter = new DataAdapter(this.imagePath);         // 实例化适配器，将数据源传进去
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());        // 线性布局管理器，默认纵向
-        this.recyclerView.setLayoutManager(linearLayoutManager);                                // 设置RecyclerView的类型
-        this.recyclerView.setAdapter(this.dataAdapter);                                         // 设置适配器
-</code></pre><h2 id="完成！"><a href="#完成！" class="headerlink" title="完成！"></a>完成！</h2><p>ok了</p>
+    });</code></pre><ul>
+<li>上传文件</li>
+</ul>
+<pre><code>String path=&quot;/mnt/sdcard/Download/icon.jpg&quot;;
+RequestParams params = new RequestParams(url);  // 这里的url是指要上传的网址
+params.setMultipart(true);                      // 上传文件时使用multipart表单, 否则上传原始文件流.
+params.addBodyParameter(&quot;file&quot;,new File(path)); // 在请求的body体中添加参数，因为要上传文件，所以这里是文件
+x.http().post(params, new Callback.CommonCallback&lt;string&gt;() {
+    @Override
+    public void onSuccess(String result) {
+    }
+    @Override
+    public void onError(Throwable ex, boolean isOnCallback) {
+    }
+    @Override
+    public void onCancelled(CancelledException cex) {
+    }
+    @Override
+    public void onFinished() {
+    }</code></pre><ul>
+<li>下载文件<br>下载文件其实将callback.commoncallback&lt;&gt;的泛型设置为File就可以实现下载<br>params.setSaveFilePath(path)  可以自定义保存路径</li>
+</ul>
+<p><a href="https://www.cnblogs.com/favour/p/6936385.html" target="_blank" rel="noopener">这里有一篇别人讲xutils框架的文章</a></p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 mo19962018@outlook.com </span>
@@ -446,12 +449,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>Android开发之RecyclerView创建列表</p>
-    <p><span class="copy-title">文章字数:</span><span class="post-count">966</span></p>
+    <p><span class="copy-title">文章标题:</span>xutils框架之网络模块</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">507</span></p>
     <p><span class="copy-title">本文作者:</span><a  title="mo1230">mo1230</a></p>
-    <p><span class="copy-title">发布时间:</span>2020-03-02, 16:11:59</p>
-    <p><span class="copy-title">最后更新:</span>2020-03-02, 17:54:21</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/03/02/Android%E5%BC%80%E5%8F%91%E4%B9%8BRecyclerView%E5%88%9B%E5%BB%BA%E5%88%97%E8%A1%A8/" title="Android开发之RecyclerView创建列表">http://yoursite.com/2020/03/02/Android%E5%BC%80%E5%8F%91%E4%B9%8BRecyclerView%E5%88%9B%E5%BB%BA%E5%88%97%E8%A1%A8/</a>
+    <p><span class="copy-title">发布时间:</span>2020-03-08, 20:32:37</p>
+    <p><span class="copy-title">最后更新:</span>2020-03-08, 22:13:56</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/03/08/xutils%E6%A1%86%E6%9E%B6%E4%B9%8B%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9D%97/" title="xutils框架之网络模块">http://yoursite.com/2020/03/08/xutils%E6%A1%86%E6%9E%B6%E4%B9%8B%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9D%97/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
