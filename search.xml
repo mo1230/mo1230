@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>flutter开发app之入门程序主体分析</title>
+      <link href="/2020/03/09/flutter%E5%BC%80%E5%8F%91app%E4%B9%8B%E5%85%A5%E9%97%A8%E7%A8%8B%E5%BA%8F%E4%B8%BB%E4%BD%93%E5%88%86%E6%9E%90/"/>
+      <url>/2020/03/09/flutter%E5%BC%80%E5%8F%91app%E4%B9%8B%E5%85%A5%E9%97%A8%E7%A8%8B%E5%BA%8F%E4%B8%BB%E4%BD%93%E5%88%86%E6%9E%90/</url>
+      
+        <content type="html"><![CDATA[<h2 id="flutter是什么"><a href="#flutter是什么" class="headerlink" title="flutter是什么"></a>flutter是什么</h2><p>flutter是Google推出的一套开发框架，可以用于移动端的开发，flutter开发使用dart语言，如果有其他语言基础，dart语言只要稍微看一下基础部分就可以进行flutter开发了。毕竟开发过程中大部分都是使用语言基础实现的，而不是语言的特别高级的特性（当然，如果是造轮子，可能还是需要的，毕竟我实力有限，现在还接触不到）。</p><h2 id="对入门程序进行分析"><a href="#对入门程序进行分析" class="headerlink" title="对入门程序进行分析"></a>对入门程序进行分析</h2><p>今天按照<a href="https://flutterchina.club/get-started/codelab/" target="_blank" rel="noopener">flutter中文网-&gt;编写您的第一个Flutter App</a>写了一个用来入门的英文单词app，可以用来了解Flutter开发app的整体框架，包含了一些简单的ui组件、事件、页面切换方法以及怎样添加第三方依赖（也就是使用第三方框架）。</p><p>主要功能是：  两个页面  主页面可以点击列表项来收藏单词到第二个页面<br>直接在代码中分析：</p><pre><code>  import &#39;package:flutter/material.dart&#39;;   // flutter的app开发ui库  import &#39;package:english_words/english_words.dart&#39;;    // 一个第三方的英文单词库  // 入口函数main()  // runApp()这是个系统函数，代表运行一个app，传入要运行的自定义app类  // 这个main()函数中只有一个语句，所以可以采用箭头函数的方法  // 这里没有使用new关键字来实例化，但是实际上使用了new关键字也可以  void main()=&gt;runApp(MyApp());  // 继承自无状态组件类，无状态即为设置好之后就一直不改变，例如文字  class MyApp extends StatelessWidget{  // build方法  app的主体从这个方法开始构建    @override    Widget build(BuildContext context) {      // TODO: implement build      return new MaterialApp(        title: &quot;第一个Flutter App&quot;,        theme: new ThemeData(          primaryColor: Colors.white,        ),        home: new RandomWords(),      );    }  }  class RandomWords extends StatefulWidget{    @override    State&lt;StatefulWidget&gt; createState() {      // TODO: implement createState      return new RandomWordsState();    }  }  class RandomWordsState extends State&lt;RandomWords&gt;{  //  final 用于变量  第一次定义时就必须初始化 且之后不再变化    final _suggestions = &lt;WordPair&gt;[];    final _biggerFont = const TextStyle(fontSize: 18.0);    final _saved = new Set&lt;WordPair&gt;();     // Set() 集合  不允许有重复的值    @override    Widget build(BuildContext context) {      // TODO: implement build  // Scaffold类  脚手架类  提供一套包含appBar以及应用body的架子      return new Scaffold (        // appBar 页面的应用栏（工具栏）        appBar: new AppBar(          title: new Text(&#39;Startup Name Generator&#39;),          // actions  相当于Android的应用栏上的菜单          actions: &lt;Widget&gt;[            // 下面的onPressed 可以理解为是IconButton的事件，其他ui组件类似            new IconButton(icon: new Icon(Icons.list), onPressed: _pushSaved)          ],        ),        // body  页面的主体部分        body: _buildSuggestions(),      );    }    // 切换到已保存的单词的页面    void _pushSaved() {      // 在flutter中有两个概念：路由、导航      // 路由（route）即为页面，导航即为切换页面      // Navigator（导航）用于切换页面  push  压入路由栈   pop  从路由栈弹出即退出页面      Navigator.of(context).push(        // push的参数是一个路由类，即下面这个MaterialPageRoute        new MaterialPageRoute(          // builder即构造一个新页面          // 下面这个匿名函数可以重新在一个dart文件的类中实现          builder: (context) {            final tiles = _saved.map(                  (pair) {                return new ListTile(                  title: new Text(                    pair.asPascalCase,                    style: _biggerFont,                  ),                );              },            );            final divided = ListTile                .divideTiles(              context: context,              tiles: tiles,            )                .toList();            return new Scaffold(              appBar: new AppBar(                title: new Text(&#39;Saved Suggestions&#39;),              ),              body: new ListView(children: divided),            );          },  // 匿名函数的结尾        ),      );    }    // 这个方法的功能是提供一个列表    Widget _buildSuggestions(){      return new ListView.builder(        padding: const EdgeInsets.all(16.0),          itemBuilder: (context,i){          if(i.isOdd) return new Divider();          //   ~/  整除            //   /  除法          final index = i ~/ 2;          if(index &gt;= _suggestions.length){            _suggestions.addAll(generateWordPairs().take(10));          }          return _buildRow(_suggestions[index]);        });    }    Widget _buildRow(WordPair pair) {      final alreadySaved = this._saved.contains(pair);      return new ListTile(        title: new Text(          pair.asPascalCase,          style: _biggerFont,        ),        trailing: new Icon(          alreadySaved ? Icons.favorite : Icons.favorite_border,          color: alreadySaved?Colors.red:null,        ),        // onTap事件        onTap: (){          // setState()  这个函数触发后，会自动调用类中的build()方法来更新ui界面          setState(() {            if(alreadySaved){              this._saved.remove(pair);            }else{              this._saved.add(pair);            }          });        },      );    }  }</code></pre><p>应用效果图如下<br><img src="/2020/03/09/flutter%E5%BC%80%E5%8F%91app%E4%B9%8B%E5%85%A5%E9%97%A8%E7%A8%8B%E5%BA%8F%E4%B8%BB%E4%BD%93%E5%88%86%E6%9E%90/words.png" alt="首页"><br><img src="/2020/03/09/flutter%E5%BC%80%E5%8F%91app%E4%B9%8B%E5%85%A5%E9%97%A8%E7%A8%8B%E5%BA%8F%E4%B8%BB%E4%BD%93%E5%88%86%E6%9E%90/savedWords.png" alt="首页"></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 移动端开发 </category>
+          
+          <category> flutter </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> flutter </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>xutils框架之网络模块</title>
       <link href="/2020/03/08/xutils%E6%A1%86%E6%9E%B6%E4%B9%8B%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9D%97/"/>
       <url>/2020/03/08/xutils%E6%A1%86%E6%9E%B6%E4%B9%8B%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9D%97/</url>

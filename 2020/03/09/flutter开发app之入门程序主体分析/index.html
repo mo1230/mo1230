@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Android开发之运行时权限以及内容提供者 | 静心之处</title>
-  <meta name="keywords" content="">
-  <meta name="description" content="Android开发之运行时权限以及内容提供者 | 静心之处">
+  <title>flutter开发app之入门程序主体分析 | 静心之处</title>
+  <meta name="keywords" content=" flutter ">
+  <meta name="description" content="flutter开发app之入门程序主体分析 | 静心之处">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="flutter是什么flutter是Google推出的一套开发框架，可以用于移动端的开发，flutter开发使用dart语言，如果有其他语言基础，dart语言只要稍微看一下基础部分就可以进行flutter开发了。毕竟开发过程中大部分都是使用语言基础实现的，而不是语言的特别高级的特性（当然，如果是造轮子，可能还是需要的，毕竟我实力有限，现在还接触不到）。 对入门程序进行分析今天按照flutter中文">
 <meta property="og:type" content="article">
@@ -321,9 +321,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-Android开发之运行时权限以及内容提供器" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-flutter开发app之入门程序主体分析" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">Android开发之运行时权限以及内容提供者</h1>
+        <h1 class="article-title">flutter开发app之入门程序主体分析</h1>
     
     <div class="article-meta">
         
@@ -333,20 +333,26 @@
             
                 <a  data-rel="移动端开发">移动端开发</a>/
             
-                <a  data-rel="Android">Android</a>
+                <a  data-rel="flutter">flutter</a>
             
         </span>
         
         
+        <span class="tag">
+            
+            <a class="color3">flutter</a>
+            
+        </span>
+        
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2020-03-08 22:07:21'>2020-03-06 23:38</time>
+        创建时间:<time class="date" title='更新时间: 2020-03-09 19:54:48'>2020-03-09 17:31</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:465</span>
+        <span>字数:951</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -365,7 +371,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#运行时权限"><span class="toc-text">运行时权限</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内容提供者"><span class="toc-text">内容提供者</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#flutter是什么"><span class="toc-text">flutter是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对入门程序进行分析"><span class="toc-text">对入门程序进行分析</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -381,19 +387,153 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>今天要讲两个东西：一、运行时权限  二、内容提供者</p>
-<h2 id="运行时权限"><a href="#运行时权限" class="headerlink" title="运行时权限"></a>运行时权限</h2><p>出现运行时权限这个东西是Google为了防止软件滥用Android权限而出现的，比如早期有些软件会申请很多权限（不管用不用得到这些权限），要是用户不同意就不能安装。<br>Google为了解决这种现象，推出了“运行时权限”即运行需要时再申请权限，不用在安装时就必须用户同意权限。</p>
-<p>Android当中的权限机制，分为普通权限、危险权限。危险权限就是那些涉及到用户安全、系统安全的东西，比如拨打电话。<br>普通权限，我们开发时只需在清单文件中申请即可。<br>危险权限，我们开发时不仅要在清单文件中申请，还需在java文件中做运行时权限处理。具体操作看下面的官方文档（因为我觉得这些我还用不到，所以。。。。）<br><a href="https://developer.android.google.cn/training/permissions/usage-notes" target="_blank" rel="noopener">Android文档中关于应用权限的推荐</a><br>官方文档推荐如果不是必须就不要对危险权限提出申请，一些操作可以通过Intent来调用系统应用来处理，而不是申请权限来完全控制。</p>
-<h2 id="内容提供者"><a href="#内容提供者" class="headerlink" title="内容提供者"></a>内容提供者</h2><p>内容提供者，可以将应用的特定数据允许外部其他应用访问。</p>
-<ul>
-<li>ContentResolver   可以在应用中访问其他应用内部数据（文件数据、数据库数据等）</li>
-<li>ContentProvider   内容提供者，继承这个类并做相应设置，可以设置外部应用可以访问哪些数据</li>
-</ul>
-<ol>
-<li>使用ContentResolver访问其他应用的数据(这里使用系统应用–电话簿)</li>
-<li>自定义自己的ContentProvider来让其他程序访问内部数据</li>
-</ol>
-<p>未完待续…</p>
+        <h2 id="flutter是什么"><a href="#flutter是什么" class="headerlink" title="flutter是什么"></a>flutter是什么</h2><p>flutter是Google推出的一套开发框架，可以用于移动端的开发，flutter开发使用dart语言，如果有其他语言基础，dart语言只要稍微看一下基础部分就可以进行flutter开发了。毕竟开发过程中大部分都是使用语言基础实现的，而不是语言的特别高级的特性（当然，如果是造轮子，可能还是需要的，毕竟我实力有限，现在还接触不到）。</p>
+<h2 id="对入门程序进行分析"><a href="#对入门程序进行分析" class="headerlink" title="对入门程序进行分析"></a>对入门程序进行分析</h2><p>今天按照<a href="https://flutterchina.club/get-started/codelab/" target="_blank" rel="noopener">flutter中文网-&gt;编写您的第一个Flutter App</a>写了一个用来入门的英文单词app，可以用来了解Flutter开发app的整体框架，包含了一些简单的ui组件、事件、页面切换方法以及怎样添加第三方依赖（也就是使用第三方框架）。</p>
+<p>主要功能是：  两个页面  主页面可以点击列表项来收藏单词到第二个页面<br>直接在代码中分析：</p>
+<pre><code>  import &#39;package:flutter/material.dart&#39;;   // flutter的app开发ui库
+  import &#39;package:english_words/english_words.dart&#39;;    // 一个第三方的英文单词库
+
+  // 入口函数main()
+  // runApp()这是个系统函数，代表运行一个app，传入要运行的自定义app类
+  // 这个main()函数中只有一个语句，所以可以采用箭头函数的方法
+  // 这里没有使用new关键字来实例化，但是实际上使用了new关键字也可以
+  void main()=&gt;runApp(MyApp());
+
+  // 继承自无状态组件类，无状态即为设置好之后就一直不改变，例如文字
+  class MyApp extends StatelessWidget{
+
+  // build方法  app的主体从这个方法开始构建
+    @override
+    Widget build(BuildContext context) {
+      // TODO: implement build
+      return new MaterialApp(
+        title: &quot;第一个Flutter App&quot;,
+        theme: new ThemeData(
+          primaryColor: Colors.white,
+        ),
+        home: new RandomWords(),
+      );
+    }
+
+  }
+
+  class RandomWords extends StatefulWidget{
+    @override
+    State&lt;StatefulWidget&gt; createState() {
+      // TODO: implement createState
+      return new RandomWordsState();
+    }
+
+  }
+
+  class RandomWordsState extends State&lt;RandomWords&gt;{
+  //  final 用于变量  第一次定义时就必须初始化 且之后不再变化
+    final _suggestions = &lt;WordPair&gt;[];
+    final _biggerFont = const TextStyle(fontSize: 18.0);
+    final _saved = new Set&lt;WordPair&gt;();     // Set() 集合  不允许有重复的值
+    @override
+    Widget build(BuildContext context) {
+      // TODO: implement build
+  // Scaffold类  脚手架类  提供一套包含appBar以及应用body的架子
+      return new Scaffold (
+        // appBar 页面的应用栏（工具栏）
+        appBar: new AppBar(
+          title: new Text(&#39;Startup Name Generator&#39;),
+          // actions  相当于Android的应用栏上的菜单
+          actions: &lt;Widget&gt;[
+            // 下面的onPressed 可以理解为是IconButton的事件，其他ui组件类似
+            new IconButton(icon: new Icon(Icons.list), onPressed: _pushSaved)
+          ],
+        ),
+        // body  页面的主体部分
+        body: _buildSuggestions(),
+      );
+    }
+
+    // 切换到已保存的单词的页面
+    void _pushSaved() {
+      // 在flutter中有两个概念：路由、导航
+      // 路由（route）即为页面，导航即为切换页面
+      // Navigator（导航）用于切换页面  push  压入路由栈   pop  从路由栈弹出即退出页面
+      Navigator.of(context).push(
+        // push的参数是一个路由类，即下面这个MaterialPageRoute
+        new MaterialPageRoute(
+          // builder即构造一个新页面
+          // 下面这个匿名函数可以重新在一个dart文件的类中实现
+          builder: (context) {
+            final tiles = _saved.map(
+                  (pair) {
+                return new ListTile(
+                  title: new Text(
+                    pair.asPascalCase,
+                    style: _biggerFont,
+                  ),
+                );
+              },
+            );
+            final divided = ListTile
+                .divideTiles(
+              context: context,
+              tiles: tiles,
+            )
+                .toList();
+            return new Scaffold(
+              appBar: new AppBar(
+                title: new Text(&#39;Saved Suggestions&#39;),
+              ),
+              body: new ListView(children: divided),
+            );
+          },  // 匿名函数的结尾
+        ),
+      );
+    }
+
+
+    // 这个方法的功能是提供一个列表
+    Widget _buildSuggestions(){
+      return new ListView.builder(
+        padding: const EdgeInsets.all(16.0),
+          itemBuilder: (context,i){
+          if(i.isOdd) return new Divider();
+          //   ~/  整除  
+          //   /  除法
+          final index = i ~/ 2;
+          if(index &gt;= _suggestions.length){
+            _suggestions.addAll(generateWordPairs().take(10));
+          }
+          return _buildRow(_suggestions[index]);
+        });
+    }
+
+
+    Widget _buildRow(WordPair pair) {
+
+      final alreadySaved = this._saved.contains(pair);
+      return new ListTile(
+        title: new Text(
+          pair.asPascalCase,
+          style: _biggerFont,
+        ),
+        trailing: new Icon(
+          alreadySaved ? Icons.favorite : Icons.favorite_border,
+          color: alreadySaved?Colors.red:null,
+        ),
+        // onTap事件
+        onTap: (){
+          // setState()  这个函数触发后，会自动调用类中的build()方法来更新ui界面
+          setState(() {
+            if(alreadySaved){
+              this._saved.remove(pair);
+            }else{
+              this._saved.add(pair);
+            }
+          });
+        },
+      );
+    }
+  }
+
+</code></pre><p>应用效果图如下<br><img src="/2020/03/09/flutter%E5%BC%80%E5%8F%91app%E4%B9%8B%E5%85%A5%E9%97%A8%E7%A8%8B%E5%BA%8F%E4%B8%BB%E4%BD%93%E5%88%86%E6%9E%90/words.png" alt="首页"><br><img src="/2020/03/09/flutter%E5%BC%80%E5%8F%91app%E4%B9%8B%E5%85%A5%E9%97%A8%E7%A8%8B%E5%BA%8F%E4%B8%BB%E4%BD%93%E5%88%86%E6%9E%90/savedWords.png" alt="首页"></p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 mo19962018@outlook.com </span>
@@ -403,12 +543,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>Android开发之运行时权限以及内容提供者</p>
-    <p><span class="copy-title">文章字数:</span><span class="post-count">465</span></p>
+    <p><span class="copy-title">文章标题:</span>flutter开发app之入门程序主体分析</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">951</span></p>
     <p><span class="copy-title">本文作者:</span><a  title="mo1230">mo1230</a></p>
-    <p><span class="copy-title">发布时间:</span>2020-03-06, 23:38:09</p>
-    <p><span class="copy-title">最后更新:</span>2020-03-08, 22:07:21</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/03/06/Android%E5%BC%80%E5%8F%91%E4%B9%8B%E8%BF%90%E8%A1%8C%E6%97%B6%E6%9D%83%E9%99%90%E4%BB%A5%E5%8F%8A%E5%86%85%E5%AE%B9%E6%8F%90%E4%BE%9B%E5%99%A8/" title="Android开发之运行时权限以及内容提供者">http://yoursite.com/2020/03/06/Android%E5%BC%80%E5%8F%91%E4%B9%8B%E8%BF%90%E8%A1%8C%E6%97%B6%E6%9D%83%E9%99%90%E4%BB%A5%E5%8F%8A%E5%86%85%E5%AE%B9%E6%8F%90%E4%BE%9B%E5%99%A8/</a>
+    <p><span class="copy-title">发布时间:</span>2020-03-09, 17:31:47</p>
+    <p><span class="copy-title">最后更新:</span>2020-03-09, 19:54:48</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/03/09/flutter%E5%BC%80%E5%8F%91app%E4%B9%8B%E5%85%A5%E9%97%A8%E7%A8%8B%E5%BA%8F%E4%B8%BB%E4%BD%93%E5%88%86%E6%9E%90/" title="flutter开发app之入门程序主体分析">http://yoursite.com/2020/03/09/flutter%E5%BC%80%E5%8F%91app%E4%B9%8B%E5%85%A5%E9%97%A8%E7%A8%8B%E5%BA%8F%E4%B8%BB%E4%BD%93%E5%88%86%E6%9E%90/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
