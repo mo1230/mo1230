@@ -4,6 +4,35 @@
   
     
     <entry>
+      <title>小项目优化之添加抽屉式导航栏以及使用fragment</title>
+      <link href="/2020/03/11/%E5%B0%8F%E9%A1%B9%E7%9B%AE%E4%BC%98%E5%8C%96%E4%B9%8B%E6%B7%BB%E5%8A%A0%E6%8A%BD%E5%B1%89%E5%BC%8F%E5%AF%BC%E8%88%AA%E6%A0%8F%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8fragment/"/>
+      <url>/2020/03/11/%E5%B0%8F%E9%A1%B9%E7%9B%AE%E4%BC%98%E5%8C%96%E4%B9%8B%E6%B7%BB%E5%8A%A0%E6%8A%BD%E5%B1%89%E5%BC%8F%E5%AF%BC%E8%88%AA%E6%A0%8F%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8fragment/</url>
+      
+        <content type="html"><![CDATA[<p>这次是对前段时间的“历史上的今天”项目的部分优化，添加了抽屉式导航栏以及使用了Fragment（碎片）。</p><h2 id="抽屉式导航栏"><a href="#抽屉式导航栏" class="headerlink" title="抽屉式导航栏"></a>抽屉式导航栏</h2><p>抽屉式导航栏就是那种从左侧滑出的导航栏。需要使用DrawerLayout以及NavigationView</p><ol><li>添加依赖(NavigationView的依赖)</li></ol><pre><code>    implementation &#39;com.google.android.material:material:1.0.0&#39;</code></pre><ol start="2"><li><p>编写布局文件</p><ul><li><p>页面布局</p><pre><code>      &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;      &lt;!--这个布局文件就是带有抽屉式导航栏的页面的布局--&gt;      &lt;!--1. 总体上使用DrawerLayout布局方式，这样整个页面就形成了一个抽屉--&gt;      &lt;!--2. DrawerLayout布局分为两部分：          第一部分容器是页面内容，          第二部分是NavigationView，也就是侧边导航栏部分--&gt;      &lt;androidx.drawerlayout.widget.DrawerLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;          xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;          xmlns:tools=&quot;http://schemas.android.com/tools&quot;          android:layout_width=&quot;match_parent&quot;          android:layout_height=&quot;match_parent&quot;          tools:context=&quot;.MainActivity&quot;          android:id=&quot;@+id/drawer&quot;&gt;      &lt;!--    这个LinearLayout作为一个容器，是页面内容部分--&gt;          &lt;LinearLayout              android:layout_width=&quot;match_parent&quot;              android:layout_height=&quot;wrap_content&quot;              android:orientation=&quot;vertical&quot;&gt;              &lt;androidx.appcompat.widget.Toolbar                  android:id=&quot;@+id/toolbar&quot;                  android:layout_width=&quot;match_parent&quot;                  android:layout_height=&quot;wrap_content&quot;                  app:title=&quot;@string/lishi&quot;                  android:background=&quot;@color/colorAccent&quot;                  /&gt;      &lt;!--        这个RelativeLayout是用来添加、替换Fragment用的--&gt;              &lt;RelativeLayout                  android:id=&quot;@+id/fragments&quot;                  android:layout_width=&quot;match_parent&quot;                  android:layout_height=&quot;match_parent&quot;&gt;              &lt;/RelativeLayout&gt;          &lt;/LinearLayout&gt;      &lt;!--    Navigation  侧边导航栏部分--&gt;      &lt;!--    有几个属性必须要设置--&gt;      &lt;!--    1. headerLayout  侧边导航栏的头部布局--&gt;      &lt;!--    2. menu  侧边导航栏的菜单--&gt;      &lt;!--    3. layout_gravity需要设置为start  设置的是侧边导航栏的滑出方向--&gt;          &lt;com.google.android.material.navigation.NavigationView              android:layout_width=&quot;match_parent&quot;              android:layout_height=&quot;match_parent&quot;              android:orientation=&quot;vertical&quot;              app:headerLayout=&quot;@layout/header&quot;              app:menu=&quot;@menu/navigation_menu&quot;              android:layout_gravity=&quot;start&quot;              android:id=&quot;@+id/nav&quot;&gt;          &lt;/com.google.android.material.navigation.NavigationView&gt;      &lt;/androidx.drawerlayout.widget.DrawerLayout&gt;      &lt;!--也就是说DrawerLayout的组成为--&gt;      &lt;!-- DrawerLayout：页面内容 + NavigationView,          而NavigationView分为headerLayout + menu(headerLayout和menu作为属性设置)--&gt;</code></pre></li><li><p>侧边导航栏头布局</p><pre><code>      &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;      &lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;          xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;          xmlns:tools=&quot;http://schemas.android.com/tools&quot;          android:layout_width=&quot;match_parent&quot; android:layout_height=&quot;match_parent&quot;&gt;          &lt;ImageButton              android:id=&quot;@+id/image&quot;              android:layout_width=&quot;100dp&quot;              android:layout_height=&quot;100dp&quot;              android:src=&quot;@drawable/me&quot;              android:padding=&quot;10dp&quot;              android:scaleType=&quot;centerCrop&quot;              android:layout_centerHorizontal=&quot;true&quot;              android:layout_marginTop=&quot;15dp&quot;/&gt;      &lt;/RelativeLayout&gt;</code></pre></li><li><p>侧边导航栏菜单文件</p><pre><code>      &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;      &lt;menu xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;          &lt;item android:id=&quot;@+id/hoem&quot;              android:title=&quot;主页&quot;              android:checkable=&quot;true&quot;              /&gt;          &lt;item android:id=&quot;@+id/setting&quot;              android:title=&quot;设置&quot;              /&gt;          &lt;item android:title=&quot;退出&quot;              android:id=&quot;@+id/quit&quot;              /&gt;      &lt;/menu&gt;</code></pre></li></ul></li></ol><ol start="3"><li><p>给导航栏添加事件<br>(注意：这里有些代码被省略了，例如类的属性的声明)</p><pre><code> // 抽屉式导航栏     this.navigationView = findViewById(R.id.nav);     this.navigationView.setCheckedItem(R.id.hoem);     this.drawerLayout = findViewById(R.id.drawer);     // 侧边导航栏的菜单选择事件     this.navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {         @Override         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {             // 定义了对Fragment进行管理的对象             FragmentManager fragmentManager = getSupportFragmentManager();             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();             switch (menuItem.getItemId()){                 case R.id.hoem:                     // 替换fragment                     fragmentTransaction.replace(R.id.fragments, new HomeContent());                     fragmentTransaction.addToBackStack(null);                     fragmentTransaction.commit();                     // 关闭抽屉                     MainActivity.this.drawerLayout.closeDrawer(GravityCompat.START);                     break;                 case R.id.setting:                     fragmentTransaction.replace(R.id.fragments, new Setting());                     fragmentTransaction.addToBackStack(null);                     fragmentTransaction.commit();                     menuItem.setCheckable(true);                     MainActivity.this.drawerLayout.closeDrawer(GravityCompat.START);                     break;                 case R.id.quit:                     // 退出                     MainActivity.this.finish();                     break;             }             return true;         }     });</code></pre><p>以上就是有关抽屉式导航栏的设置</p></li></ol><h2 id="Fragment的管理"><a href="#Fragment的管理" class="headerlink" title="Fragment的管理"></a>Fragment的管理</h2><p>fragment即为碎片，它也有布局文件以及java文件，可以在一个activity下加入、删除、替换多个fragment。并且可以解决平板电脑上的布局问题</p><ol><li>新建fragment以及布局文件<br>使用Android Studio可以同时建立<br><img src="/2020/03/11/%E5%B0%8F%E9%A1%B9%E7%9B%AE%E4%BC%98%E5%8C%96%E4%B9%8B%E6%B7%BB%E5%8A%A0%E6%8A%BD%E5%B1%89%E5%BC%8F%E5%AF%BC%E8%88%AA%E6%A0%8F%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8fragment/fragment.png" alt="新建fragment以及布局文件"></li><li>在fragment的java文件中实现业务逻辑，在布局文件中设置布局页面</li><li>在activity中管理fragment<pre><code>     // 添加碎片         FragmentManager fragmentManager = getSupportFragmentManager();         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();         // R.id.fragments为activity的布局文件中的一个容器（例如LinearLayout），HomeContent是前面新建的碎片         fragmentTransaction.add(R.id.fragments, new HomeContent());         fragmentTransaction.commit();</code></pre></li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> 移动端开发 </category>
+          
+          <category> Android </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 历史上的今天 </tag>
+            
+            <tag> 抽屉式导航栏 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>flutter开发app之入门程序主体分析</title>
       <link href="/2020/03/09/flutter%E5%BC%80%E5%8F%91app%E4%B9%8B%E5%85%A5%E9%97%A8%E7%A8%8B%E5%BA%8F%E4%B8%BB%E4%BD%93%E5%88%86%E6%9E%90/"/>
       <url>/2020/03/09/flutter%E5%BC%80%E5%8F%91app%E4%B9%8B%E5%85%A5%E9%97%A8%E7%A8%8B%E5%BA%8F%E4%B8%BB%E4%BD%93%E5%88%86%E6%9E%90/</url>
@@ -97,9 +126,9 @@
       
         <tags>
             
-            <tag> xutils </tag>
-            
             <tag> 历史上的今天 </tag>
+            
+            <tag> xutils </tag>
             
             <tag> gson </tag>
             
